@@ -27,7 +27,7 @@ dependencies {
 //    compileOnly "org.jetbrains:annotations:25.0.0"
     compileOnly 'org.projectlombok:lombok:1.18.34'
     compileOnly "net.luckperms:api:5.4"
-    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core:2.12.2")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core:2.13.0")
     compileOnly "net.milkbowl.vault:VaultUnlockedAPI:2.7"
     compileOnly 'me.clip:placeholderapi:2.11.6'
     annotationProcessor "org.jetbrains:annotations:25.0.0"
