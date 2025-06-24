@@ -23,7 +23,7 @@ dependencies {
     implementation ("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
     paperweight.paperDevBundle('1.21.4-R0.1-SNAPSHOT')
     implementation ("meteordevelopment:starscript:0.2.2")
-    paperLibrary ('com.google.code.gson:gson:2.10.1') // Paper only
+    paperLibrary ('com.google.code.gson:gson:2.13.1') // Paper only
 //    compileOnly "org.jetbrains:annotations:25.0.0"
     compileOnly 'org.projectlombok:lombok:1.18.34'
     compileOnly "net.luckperms:api:5.4"
