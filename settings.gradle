@@ -1,5 +1,3 @@
-rootProject.name = 'TemplatePlugin'
-include 'bukkit'
-include 'api'
+rootProject.name = 'Skyblock'
 
 

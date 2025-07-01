@@ -1,2 +1,133 @@
-group = 'net.creepyshadows.creepyx'
+plugins {
+    id 'java'
+    id 'de.eldoria.plugin-yml.paper' version '0.7.1'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.17'
+    id 'xyz.jpenilla.run-paper' version '2.3.1'
+    id 'com.gradleup.shadow' version '8.3.3'
+}
+ext {
+    project_group = 'de.enderland.'
+    project_artifactId = 'jobsremastered'
+    project_version = project.findProperty("project-version")
+}
+
+group = 'de.enderland'
 version = '1.0-BETA'
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://jitpack.io'
+    }
+    maven {
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        url = 'https://repo.codemc.org/repository/maven-public/'
+    }
+    maven {
+        url = 'file://C:/Users/Benny/.m2/repository'
+    }
+    maven {
+        url = 'https://maven.enginehub.org/repo/'
+    }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+}
+
+dependencies {
+    paperweight.paperDevBundle("1.21.5-R0.1-SNAPSHOT")
+    paperLibrary(libs.ormlite)
+    paperLibrary (libs.sqlite)
+    compileOnly (libs.commandapi.bukkit.core)
+    compileOnly (libs.jetbrains.annotations)
+    compileOnly (libs.lombok)
+    annotationProcessor (libs.jetbrains.annotations)
+    annotationProcessor (libs.lombok)
+}
+
+paper {
+    // Default values can be overridden if needed
+    name = 'Skyblock'
+    version = '1.0.0'
+    description = 'This is an Skyblock plugin for the EnderLand Network'
+
+    loader = "de.enderland.skyblock.util.PluginLibrariesLoader"
+
+    // Plugin main class (required)
+    main = 'de.enderland.skyblock.JobsPlugin'
+
+    // Generate paper-libraries.json from `library` and `paperLibrary` in `dependencies`
+    generateLibrariesJson = true
+
+    // Mark plugin for supporting Folia
+    foliaSupported = false
+
+    // API version (needs to be 1.19 or higher)
+    apiVersion = '1.21'
+
+    // Other possible properties from paper-plugin.yml (optional)
+    load = 'STARTUP' // or 'POSTWORLD'
+    authors = ['felixstaude','CreepyX']
+    prefix = 'SkyBlock'
+
+    //noinspection GroovyAssignabilityCheck
+    serverDependencies {
+        'LuckPerms' { load = 'BEFORE' }
+        'CommandAPI' { load = 'BEFORE' }
+    }
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.shadowJar {
+    archiveFileName = "${project.name}-${project.version}-paper.jar"
+
+    relocate('org.intellij', "${project_group}${project_artifactId}.org.intellij")
+    relocate('org.jetbrains', "${project_group}${project_artifactId}.org.jetbrains")
+}
+
+tasks {
+    runServer {
+        dependsOn shadowJar
+        downloadPlugins {
+            url("https://download.luckperms.net/1575/bukkit/loader/LuckPerms-Bukkit-5.4.158.jar")
+            hangar("CommandAPI", "10.0.0")
+        }
+        minecraftVersion("1.21.5")
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+configurations.configureEach {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'com.google.code.gson' && details.requested.name == 'gson') {
+            // Force all dependencies to use Gson 2.11.0
+            details.useVersion '2.11.0'
+        }
+        if (details.requested.group == 'com.google.guava' && details.requested.name == 'guava') {
+            // Force all dependencies to use Gson 2.11.0
+            details.useVersion '33.3.1-jre'
+        }
+        if (details.requested.group == 'it.unimi.dsi' && details.requested.name == 'fastutil') {
+            // Force the use of fastutil version 8.5.15
+            details.useVersion '8.5.15'
+        }
+    }
+}
+
