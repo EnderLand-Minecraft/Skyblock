@@ -1,0 +1,13 @@
+[versions]
+sqlite = "3.44.1.0"
+commandapi="9.7.0"
+ormlite="6.1"
+lombok="1.18.34"
+annotations="25.0.0"
+
+[libraries]
+sqlite = {module = "org.xerial:sqlite-jdbc", version.ref = "sqlite"}
+commandapi-bukkit-core = {module = "dev.jorel:commandapi-bukkit-core", version.ref = "commandapi"}
+ormlite = {module = "com.j256.ormlite:ormlite-jdbc", version.ref = "ormlite"}
+lombok = {module = "org.projectlombok:lombok", version.ref = "lombok"}
+jetbrains-annotations = {module = "org.jetbrains:annotations", version.ref = "annotations"}
