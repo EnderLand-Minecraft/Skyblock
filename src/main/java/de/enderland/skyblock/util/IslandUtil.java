@@ -3,7 +3,6 @@ package de.enderland.skyblock.util;
 import de.enderland.skyblock.PlayerCache;
 import de.enderland.skyblock.SkyBlockPlugin;
 import de.enderland.skyblock.database.model.IslandModel;
-import de.enderland.skyblock.database.model.IslandOptionsModel;
 import de.enderland.skyblock.util.serializer.Base64Serializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -44,7 +43,7 @@ public class IslandUtil {
 			Bukkit.getScheduler().runTask(SkyBlockPlugin.getInstance(), () -> {
 				World world = Bukkit.createWorld(new WorldCreator(worldName));
 				if (world == null) {
-					LogUtil.log(LogType.WARNING,"World '" + worldName + "' could not be loaded!");
+					LogUtil.log(LogType.WARNING, "World '" + worldName + "' could not be loaded!");
 					return;
 				}
 				callback.accept(world);
@@ -83,19 +82,19 @@ public class IslandUtil {
 	}
 
 	private static void copyDirectory(Path source, Path target) {
-		try(DirectoryStream<Path> sourceStream = Files.newDirectoryStream(source)) {
+		try (DirectoryStream<Path> sourceStream = Files.newDirectoryStream(source)) {
 			sourceStream.forEach(path -> {
-						try {
-							Path destination = target.resolve(source.relativize(path));
-							if (Files.isDirectory(path)) {
-								if (!Files.exists(destination)) Files.createDirectory(destination);
-							} else {
-								Files.copy(path, destination, StandardCopyOption.REPLACE_EXISTING);
-							}
-						} catch (IOException e) {
-							throw new RuntimeException("Error during copy of " + path, e);
-						}
-					});
+				try {
+					Path destination = target.resolve(source.relativize(path));
+					if (Files.isDirectory(path)) {
+						if (!Files.exists(destination)) Files.createDirectory(destination);
+					} else {
+						Files.copy(path, destination, StandardCopyOption.REPLACE_EXISTING);
+					}
+				} catch (IOException e) {
+					throw new RuntimeException("Error during copy of " + path, e);
+				}
+			});
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
