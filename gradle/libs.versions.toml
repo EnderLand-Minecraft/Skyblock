@@ -3,7 +3,7 @@ sqlite = "3.44.1.0"
 commandapi="9.7.0"
 ormlite="6.1"
 lombok="1.18.38"
-annotations="25.0.0"
+annotations="26.0.2"
 
 [libraries]
 sqlite = {module = "org.xerial:sqlite-jdbc", version.ref = "sqlite"}
