@@ -1,6 +1,6 @@
 [versions]
 sqlite = "3.44.1.0"
-commandapi="9.7.0"
+commandapi="10.1.2"
 ormlite="6.1"
 lombok="1.18.38"
 annotations="25.0.0"
